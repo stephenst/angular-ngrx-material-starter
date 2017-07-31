@@ -1,0 +1,40 @@
+<div [@routerTransition]>
+    <div class="row">
+        <div class="col-xl-12">
+            <h2 class="page-header">
+                D3 Charts
+            </h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <i class="fa fa-dashboard"></i> <a href="Javascript:void(0)" [routerLink]="['/']">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active"><i class="fa fa-bar-chart-o"></i> D3 Charts</li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-sm-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Bar Chart
+                </div>
+                <div class="card-block">
+                    <app-bar-chart id="barChartD3" [data]="barChartData"></app-bar-chart>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-info btn-sm" (click)="randomizeBarChart()">Update</button>
+                </div>
+            </div>
+        </div>
+        <div class="col col-sm-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Multi-line Chart
+                </div>
+                <div class="card-block">
+                    <app-multiline></app-multiline>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+
+.d3-multilinechart {
+    height: 400px;
+    width: 100%;
+
+    .axis--x path {
+        display: none;
+    }
+
+    .line {
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 1.5px;
+    }
+}

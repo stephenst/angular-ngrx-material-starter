@@ -5,7 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
 
-import { ExamplesRoutingModule } from './examples-routing.module';
+import { ExamplesRoutingModule } from './views-routing.module';
 import { ExamplesComponent } from './examples/examples.component';
 import { TodosComponent } from './todos/todos.component';
 import { todosReducer } from './todos/todos.reducer';
@@ -16,6 +16,7 @@ import { StockMarketEffects } from './stock-market/stock-market.effects';
 import { StockMarketService } from './stock-market/stock-market.service';
 import { ParentComponent } from './theming/parent/parent.component';
 import { ChildComponent } from './theming/child/child.component';
+import { D3Component } from './d3/d3.component';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { ChildComponent } from './theming/child/child.component';
     TodosComponent,
     StockMarketComponent,
     ParentComponent,
-    ChildComponent
+    ChildComponent,
+    D3Component
   ],
   providers: [
     StockMarketService

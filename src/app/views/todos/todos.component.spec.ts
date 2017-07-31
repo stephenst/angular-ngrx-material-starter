@@ -1,21 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
 
-import { ExamplesModule } from '../examples.module';
+import { ExamplesModule } from '../views.module';
 
-import { StockMarketComponent } from './stock-market.component';
+import { TodosComponent } from './todos.component';
 
-describe('StockMarketComponent', () => {
-  let component: StockMarketComponent;
-  let fixture: ComponentFixture<StockMarketComponent>;
+describe('TodosComponent', () => {
+  let component: TodosComponent;
+  let fixture: ComponentFixture<TodosComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NoopAnimationsModule,
         CoreModule,
         SharedModule,
         ExamplesModule
@@ -25,7 +23,7 @@ describe('StockMarketComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StockMarketComponent);
+    fixture = TestBed.createComponent(TodosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
