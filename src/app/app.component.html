@@ -1,84 +1,95 @@
 <md-sidenav-container>
-
-  <md-sidenav #sidenav mode="push">
-    <div class="branding"><img [src]="logo"/> <span>Angular Starter</span></div>
-    <md-nav-list>
-      <a md-list-item *ngFor="let item of navigationSideMenu" (click)="sidenav.close()"
-         [routerLink]="[item.link]" routerLinkActive="active">
-        {{item.label}}
-      </a>
-    </md-nav-list>
-  </md-sidenav>
-
-  <div class="wrapper">
-
-    <md-toolbar color="primary">
-      <button md-icon-button class="hidden-md-up" (click)="sidenav.open()">
-        <md-icon>menu</md-icon>
-      </button>
-
-      <span routerLink="" class="branding spacer hidden-md-up text-center"><img
-        [src]="logo"/> Angular Starter</span>
-      <span routerLink="" class="branding spacer hidden-sm-down"><img
-        [src]="logo"/> Angular ngRx Material Starter</span>
-
-      <span class="hidden-sm-down">
-        <button md-button class="nav-button" *ngFor="let item of navigation"
-            [routerLink]="[item.link]" routerLinkActive="active">
-          {{item.label}}
-        </button>
-      </span>
-
-      <button md-button class="sign-in-button"
-              *ngIf="!isAuthenticated"
-              (click)="onLoginClick()">
-        Sign in
-      </button>
-
-      <button *ngIf="isAuthenticated"
-              md-icon-button
-              [mdMenuTriggerFor]="toolbarUserMenu">
-        <md-icon>person</md-icon>
-      </button>
-      <md-menu #toolbarUserMenu="mdMenu">
-        <button md-menu-item (click)="onLogoutClick()">
-          <md-icon>power_settings_new</md-icon>
-          <span>Logout</span>
-        </button>
-      </md-menu>
-
-      <button md-icon-button routerLink="settings" class="hidden-sm-down">
-        <md-icon>settings</md-icon>
-      </button>
-
-      <a mdTooltip="Project Github Repository"
-         mdTooltipPosition="before"
-         md-icon-button class="link"
-         href="https://github.com/stephenst/angular-ngrx-material-starter"
-         target="_blank">
-        <i class="fa fa-github fa-2x"></i>
-      </a>
-
-    </md-toolbar>
-
-    <div class="content"
-         [@routerTransition]="o.isActivated && o.activatedRoute.routeConfig.path">
-      <router-outlet #o="outlet"></router-outlet>
-    </div>
-
-    <div class="footer">
-      <div class="row">
-        <div class="col-12 signature">
-          &#169; {{year}} - Tony Stephens
-          <a mdTooltip="Show changelog"
-             mdTooltipPosition="before"
-             href="https://github.com/stephenst/angular-ngrx-material-starter/blob/master/CHANGELOG.md">
-            <i class="fa fa-rocket"></i> {{version}}
-          </a>
+    <md-sidenav #sidenav mode="push">
+        <div class="branding">
+            <img [src]="logo"/> <span>Angular Starter</span>
         </div>
-      </div>
+        <md-nav-list>
+            <a md-list-item *ngFor="let item of navigationSideMenu" (click)="sidenav.close()"
+               [routerLink]="[item.link]" routerLinkActive="active">
+                {{item.label}}
+            </a>
+        </md-nav-list>
+    </md-sidenav>
+
+    <div class="wrapper">
+        <md-toolbar color="primary">
+            <!-- hamburger menu shown at small sieze; hidden at medium>up sizes. -->
+            <button md-icon-button class="hidden-md-up" (click)="sidenav.open()">
+                <md-icon>menu</md-icon>
+            </button>
+
+            <!-- Logo and Text; center aligned; shown at small size. -->
+            <span routerLink="" class="branding spacer hidden-md-up text-center"><img
+                [src]="logo"/> Angular ngRx Material Starter
+            </span>
+
+            <!-- Logo and Text; left aligned; hidden at small size. -->
+            <span routerLink="" class="branding spacer hidden-sm-down"><img
+                [src]="logo"/> Angular ngRx Material Starter
+            </span>
+
+            <!-- Nav buttons, hidden at samll size. -->
+            <span class="hidden-sm-down">
+                <button md-button class="nav-button" *ngFor="let item of navigation"
+                        [routerLink]="[item.link]" routerLinkActive="active">
+                  {{item.label}}
+                </button>
+            </span>
+
+            <!-- Auth Button if not logged in -->
+            <button md-button class="sign-in-button"
+                    *ngIf="!isAuthenticated"
+                    (click)="onLoginClick()">
+                Sign in
+            </button>
+            <!-- Person if logged in -->
+            <button *ngIf="isAuthenticated"
+                    md-icon-button
+                    [mdMenuTriggerFor]="toolbarUserMenu">
+                <md-icon>person</md-icon>
+            </button>
+
+            <!-- Person Dropdown Menu. -->
+            <md-menu #toolbarUserMenu="mdMenu">
+                <button md-menu-item (click)="onLogoutClick()">
+                    <md-icon>power_settings_new</md-icon>
+                    <span>Logout</span>
+                </button>
+            </md-menu>
+
+            <!-- Settings; hidden at small size. -->
+            <button md-icon-button routerLink="settings" class="hidden-sm-down">
+                <md-icon>settings</md-icon>
+            </button>
+
+            <!-- Github Link/Icon; hidden at small size. -->
+            <a mdTooltip="Project Github Repository"
+               mdTooltipPosition="before"
+               md-icon-button
+               class="hidden-sm-down link"
+               href="https://github.com/stephenst/angular-ngrx-material-starter"
+               target="_blank">
+                <i class="fa fa-github fa-2x"></i>
+            </a>
+        </md-toolbar>
+
+        <!-- The main router outlet view -->
+        <div class="content"
+             [@routerTransition]="o.isActivated && o.activatedRoute.routeConfig.path">
+            <router-outlet #o="outlet"></router-outlet>
+        </div>
+
+        <div class="footer">
+            <div class="row">
+                <div class="col-12 signature">
+                    &#169; {{ year }} - Tony Stephens
+                    <a mdTooltip="Show changelog"
+                       mdTooltipPosition="before"
+                       href="https://github.com/stephenst/angular-ngrx-material-starter/blob/master/CHANGELOG.md">
+                        <i class="fa fa-rocket"></i> {{ version }}
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-
-  </div>
-
 </md-sidenav-container>

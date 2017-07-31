@@ -1,5 +1,11 @@
-$anms-primary: mat-palette($mat-indigo, 800, 300, 900);
-$anms-accent: mat-palette($mat-light-blue);
+@import '../styles-variables';
+
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$anms-primary: mat-palette($mat-light-blue);
+$anms-accent: mat-palette($mat-deep-orange);
 $anms-warn: mat-palette($mat-deep-orange, A200);
 
 $anms-theme: mat-light-theme(
@@ -7,3 +13,4 @@ $anms-theme: mat-light-theme(
     $anms-accent,
     $anms-warn
 );
+
