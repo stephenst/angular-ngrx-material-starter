@@ -30,6 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
     navigation = [
         {link: 'about', label: 'About'},
         {link: 'd3', label: 'D3'},
+        {link: 'cesium', label: 'Cesium'},
         {link: 'features', label: 'Features'},
         {link: 'examples', label: 'Examples'}
     ];

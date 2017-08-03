@@ -1,29 +1,27 @@
-<div [@routerTransition]>
-    <div class="row">
-        <div class="col col-sm-6">
-            <md-card>
-                <md-card-title>
-                    Bar Chart
-                </md-card-title>
-                <md-card-subtitle>
-                    D3 Bar Chart
-                </md-card-subtitle>
-                <app-bar-chart id="barChartD3" [data]="barChartData"></app-bar-chart>
-                <md-card-actions>
-                    <button class="btn btn-info btn-sm" (click)="randomizeBarChart()">Update</button>
-                </md-card-actions>
-            </md-card>
-        </div>
-        <div class="col col-sm-6">
-            <md-card>
-                <md-card-title>
-                    Multi-line Chart
-                </md-card-title>
-                <md-card-subtitle>
-                    D3 Bar Chart
-                </md-card-subtitle>
-                <app-multiline></app-multiline>
-            </md-card>
-        </div>
+<div class="row">
+    <div class="col col-sm-6">
+        <md-card>
+            <md-card-title>
+                Bar Chart
+            </md-card-title>
+            <md-card-subtitle>
+                D3 Bar Chart
+            </md-card-subtitle>
+            <anms-bar-chart id="barChartD3" [data]="barChartData"></anms-bar-chart>
+            <md-card-actions>
+                <button class="btn btn-info btn-sm" (click)="randomizeBarChart()">Update</button>
+            </md-card-actions>
+        </md-card>
+    </div>
+    <div class="col col-sm-6">
+        <md-card>
+            <md-card-title>
+                Multi-line Chart
+            </md-card-title>
+            <md-card-subtitle>
+                D3 Bar Chart
+            </md-card-subtitle>
+            <anms-multiline></anms-multiline>
+        </md-card>
     </div>
 </div>

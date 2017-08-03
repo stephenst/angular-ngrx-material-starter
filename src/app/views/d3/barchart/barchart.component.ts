@@ -2,12 +2,11 @@ import {Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsul
 import * as d3 from 'd3';
 
 @Component({
-    selector: 'app-bar-chart',
+    selector: 'anms-bar-chart',
     templateUrl: './barchart.component.html',
     styleUrls: ['./barchart.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-
 
 export class BarChartComponent implements OnInit, OnChanges {
     @ViewChild('chart') private chartContainer: ElementRef;

@@ -7,7 +7,7 @@ import * as d3Array from 'd3-array';
 import * as d3Axis from 'd3-axis';
 
 @Component({
-    selector: 'app-multiline',
+    selector: 'anms-multiline',
     templateUrl: './multiline.component.html',
     styleUrls: ['./multiline.component.scss'],
     encapsulation: ViewEncapsulation.None

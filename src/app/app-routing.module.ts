@@ -18,6 +18,9 @@ const routes: Routes = [
         path: 'd3',
         loadChildren: 'app/views/d3/d3.module#D3Module',
     }, {
+        path: 'cesium',
+        loadChildren: 'app/views/cesium/cesium.module#CesiumModule',
+    }, {
         path: '**',
         redirectTo: 'about'
     }
