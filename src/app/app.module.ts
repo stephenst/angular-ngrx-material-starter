@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 
 import {SharedModule} from '@app/shared';
 import {CoreModule} from '@app/core';
-import {AngularCesiumModule} from 'angular-cesium';
+import {AngularCesiumModule} from 'angular-cesium/src/angular-cesium.module';
 
 import {SettingsModule} from './settings';
 import {StaticModule} from './static';
