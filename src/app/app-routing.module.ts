@@ -13,7 +13,7 @@ const routes: Routes = [
     component: SettingsComponent
   }, {
     path: 'examples',
-    loadChildren: 'app/examples/examples.module#ExamplesModule',
+    loadChildren: 'app/components/components.module#ExamplesModule',
   }, {
     path: '**',
     redirectTo: 'about'

@@ -5,7 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
 
-import { ExamplesRoutingModule } from './examples-routing.module';
+import { ExamplesRoutingModule } from './components-routing.module';
 import { ExamplesComponent } from './examples/examples.component';
 import { TodosComponent } from './todos/todos.component';
 import { todosReducer } from './todos/todos.reducer';

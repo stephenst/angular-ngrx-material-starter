@@ -10,18 +10,18 @@
 
 @include mat-core();
 
-@import 'default-theme.scss';
-@import 'light-theme.scss';
-@import 'black-theme.scss';
+@import 'themes/default-theme.scss';
+@import 'themes/light-theme.scss';
+@import 'themes/black-theme.scss';
 
 @import 'styles-reset.scss-theme';
 @import 'app/app.component.scss-theme';
 @import 'app/shared/big-input/big-input.component.scss-theme';
 @import 'app/static/about/about.component.scss-theme';
-@import 'app/examples/todos/todos.component.scss-theme';
-@import 'app/examples/stock-market/stock-market.component.sccs-theme';
-@import 'app/examples/theming/parent/parent.component.scss-theme';
-@import 'app/examples/theming/child/child.component.scss-theme';
+@import 'app/components/todos/todos.component.scss-theme';
+@import 'app/components/stock-market/stock-market.component.sccs-theme';
+@import 'app/components/theming/parent/parent.component.scss-theme';
+@import 'app/components/theming/child/child.component.scss-theme';
 
 @mixin custom-components-theme($theme) {
   @include anms-styles-reset-theme($theme);
@@ -35,8 +35,11 @@
 }
 
 .default-theme {
-  @include angular-material-theme($anms-theme);
-  @include custom-components-theme($anms-theme);
+  // @include angular-material-theme($anms-theme);
+  // @include custom-components-theme($anms-theme);
+
+    @include angular-material-theme($anms-black-theme);
+    @include custom-components-theme($anms-black-theme);
 }
 
 .light-theme {
@@ -45,6 +48,15 @@
 }
 
 .black-theme {
-  @include angular-material-theme($anms-black-theme);
-  @include custom-components-theme($anms-black-theme);
+    @include angular-material-theme($anms-black-theme);
+    @include custom-components-theme($anms-black-theme);
+}
+
+// styles.css
+html, body, #cesiumContainer {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }

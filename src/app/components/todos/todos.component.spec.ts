@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
 
-import { ExamplesModule } from '../examples.module';
+import { ExamplesModule } from '../components.module';
 
 import { TodosComponent } from './todos.component';
 

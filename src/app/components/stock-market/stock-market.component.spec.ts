@@ -4,7 +4,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
 
-import { ExamplesModule } from '../examples.module';
+import { ExamplesModule } from '../components.module';
 
 import { StockMarketComponent } from './stock-market.component';
 
