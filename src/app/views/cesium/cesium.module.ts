@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {CesiumRoutingModule} from './cesium-routing.module';
-import {CesiumComponent} from './cesium.component';
-import {AngularCesiumModule} from 'angular-cesium';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CesiumRoutingModule } from './cesium-routing.module';
+import { CesiumComponent } from './cesium.component';
+import { AngularCesiumModule } from 'angular-cesium';
 
 
 @NgModule({
@@ -11,7 +11,9 @@ import {AngularCesiumModule} from 'angular-cesium';
         AngularCesiumModule,
         CesiumRoutingModule
     ],
-    declarations: [CesiumComponent]
+    declarations: [
+        CesiumComponent
+    ]
 })
 export class CesiumModule {
 }
