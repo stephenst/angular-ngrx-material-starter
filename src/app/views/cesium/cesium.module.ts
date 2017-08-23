@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CesiumRoutingModule } from './cesium-routing.module';
 import { CesiumComponent } from './cesium.component';
 import { AngularCesiumModule } from 'angular-cesium';
+import { ScenarioService } from '@app/components/scenario-service/scenario.service';
 
 
 @NgModule({
@@ -13,6 +14,9 @@ import { AngularCesiumModule } from 'angular-cesium';
     ],
     declarations: [
         CesiumComponent
+    ],
+    providers: [
+        ScenarioService
     ]
 })
 export class CesiumModule {
