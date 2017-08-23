@@ -16,7 +16,6 @@ import {StockMarketEffects} from './stock-market/stock-market.effects';
 import {StockMarketService} from './stock-market/stock-market.service';
 import {ParentComponent} from './theming/parent/parent.component';
 import {ChildComponent} from './theming/child/child.component';
-import {D3Component} from './d3/d3.component';
 import {CesiumModule} from './cesium/cesium.module';
 
 @NgModule({
@@ -39,8 +38,7 @@ import {CesiumModule} from './cesium/cesium.module';
         TodosComponent,
         StockMarketComponent,
         ParentComponent,
-        ChildComponent,
-        D3Component
+        ChildComponent
     ],
     providers: [
         StockMarketService

@@ -34,6 +34,7 @@
 .default-theme {
     // @include angular-material-theme($anms-theme);
     // @include custom-components-theme($anms-theme);
+
     @include angular-material-theme($anms-black-theme);
     @include custom-components-theme($anms-black-theme);
 }
@@ -48,6 +49,7 @@
     @include custom-components-theme($anms-black-theme);
 }
 
+// styles.css
 .map-container {
     width: 100%;
     height: 100vh;

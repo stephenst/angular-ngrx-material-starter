@@ -1,12 +1,6 @@
-# Angular, ngrx and Angular Material Starter by [@tomastrajan](https://twitter.com/tomastrajan) [![Build Status](https://travis-ci.org/tomastrajan/angular-ngrx-material-starter.svg?branch=master)](https://travis-ci.org/tomastrajan/angular-ngrx-material-starter)
-                           
-Check out [Demo & Documentation](http://tomastrajan.github.io/angular-ngrx-material-starter/)
-
-Check out [Blog post](https://medium.com/@tomastrajan/the-complete-guide-to-angular-material-themes-4d165a9d24d1)
-
-
-![into](https://raw.githubusercontent.com/tomastrajan/angular-ngrx-material-starter/master/meta-assets/intro.png)
-![themes](https://raw.githubusercontent.com/tomastrajan/angular-ngrx-material-starter/master/meta-assets/themes.png)
+# ngMaterial
+[![Build Status](https://travis-ci.org/stephenst/angular-ngrx-material-starter.svg?branch=master)](https://travis-ci.org/stephenst/angular-ngrx-material-starter)
+Check out [Demo & Documentation](http://stephenst.github.io/angular-ngrx-material-starter/)
 
  
 ## Features
@@ -29,3 +23,20 @@ Check out [Blog post](https://medium.com/@tomastrajan/the-complete-guide-to-angu
 ## Build
 
 Built with [Angular CLI](https://github.com/angular/angular-cli)
+
+## Build docker image
+
+```
+$ docker build -t ngmaterial . 
+```
+
+## Run the container
+
+```
+$ docker run -d -p 8080:80 ngmaterial
+```
+
+
+The app will be available at http://localhost:8080
+
+You can easily tweak the nginx config in ```nginx/default.conf```

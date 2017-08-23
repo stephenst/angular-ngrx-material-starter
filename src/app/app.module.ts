@@ -2,9 +2,10 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
 
+import {AngularCesiumModule} from 'angular-cesium';
+
 import {SharedModule} from '@app/shared';
 import {CoreModule} from '@app/core';
-import { AngularCesiumModule } from 'angular-cesium';
 
 import {SettingsModule} from './settings';
 import {StaticModule} from './static';
@@ -17,6 +18,9 @@ import {AppComponent} from './app.component';
         // angular
         BrowserAnimationsModule,
         BrowserModule,
+
+        // libs
+        AngularCesiumModule,
 
         // core & shared
         CoreModule,

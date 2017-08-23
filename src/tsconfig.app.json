@@ -1,16 +1,17 @@
 {
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../out-tsc/app",
-    "module": "es2015",
-    "baseUrl": "",
-    "types": [
-      "node",
-      "node-uuid"
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../out-tsc/app",
+        "module": "es2015",
+        "baseUrl": "",
+        "types": [
+            "node",
+            "node-uuid",
+            "d3"
+        ]
+    },
+    "exclude": [
+        "test.ts",
+        "**/*.spec.ts"
     ]
-  },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts"
-  ]
 }
