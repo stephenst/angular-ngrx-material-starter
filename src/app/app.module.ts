@@ -6,6 +6,7 @@ import {AngularCesiumModule} from 'angular-cesium';
 
 import {SharedModule} from '@app/shared';
 import {CoreModule} from '@app/core';
+import {ComponentsModule} from './components/components.module';
 
 import {SettingsModule} from './settings';
 import {StaticModule} from './static';
@@ -25,6 +26,7 @@ import {AppComponent} from './app.component';
         // core & shared
         CoreModule,
         SharedModule,
+        ComponentsModule,
         AngularCesiumModule,
 
         // features

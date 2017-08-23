@@ -18,17 +18,21 @@ export class CesiumComponent implements AfterViewInit {
 
     constructor(private viewerConf: ViewerConfiguration, private viewersManager: ViewersManagerService) {
         viewerConf.viewerOptions = {
-            selectionIndicator: false,
-            timeline: false,
-            infoBox: false,
-            fullscreenButton: false,
-            baseLayerPicker: false,
             animation: false,
-            homeButton: false,
+            baseLayerPicker: false,
+            fullscreenButton: true,
             geocoder: false,
+            homeButton: false,
+            infoBox: true,
             navigationHelpButton: false,
             navigationInstructionsInitiallyVisible: false,
+            scene3Donly: true,
+            sceneModePicker: true,
+            sceneMode: Cesium.SceneMode.SCENE2D,
+            selectionIndicator: true,
+            timeline: false
         };
+
 
         viewerConf.viewerModifier = (viewer) => {
             viewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
