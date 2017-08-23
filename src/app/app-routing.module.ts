@@ -6,7 +6,7 @@ import {SettingsComponent} from './settings';
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'about',
+        redirectTo: 'cesium',
         pathMatch: 'full'
     }, {
         path: 'settings',
@@ -22,7 +22,7 @@ const routes: Routes = [
         loadChildren: 'app/views/cesium/cesium.module#CesiumModule',
     }, {
         path: '**',
-        redirectTo: 'about'
+        redirectTo: 'cesium'
     }
 ];
 
