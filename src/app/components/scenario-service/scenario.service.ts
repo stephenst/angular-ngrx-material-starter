@@ -18,10 +18,10 @@ export class ScenarioService {
     constructor(private http: Http) {
     }
 
-    getAllScenarios(): Promise<Scenario> {
+    getAllScenarios(): Promise<Scenario[]> {
         return this.http.get(this.scenarioApi)
             .toPromise()
-            .then(response => response.json().data as Scenario)
+            .then(response => response.json().data as Scenario[])
             .catch(this.handleError);
     }
 
