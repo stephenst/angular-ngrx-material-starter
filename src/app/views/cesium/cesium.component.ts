@@ -1,6 +1,7 @@
-import {Component, Input, ViewChild, AfterViewInit, OnInit, ViewEncapsulation} from '@angular/core';
-import {ViewerConfiguration, MapLayerProviderOptions, ViewersManagerService} from 'angular-cesium';
-import {ScenarioService} from '@app/components/scenario-service/scenario.service';
+import { Component, Input, ViewChild, AfterViewInit, OnInit, ViewEncapsulation } from '@angular/core';
+import { ViewerConfiguration, MapLayerProviderOptions, ViewersManagerService } from 'angular-cesium';
+import { ScenarioService } from '@app/components/scenario-service/scenario.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'anms-cesium',
@@ -32,7 +33,8 @@ export class CesiumComponent implements OnInit, AfterViewInit {
 
     constructor(private viewerConf: ViewerConfiguration,
                 private viewersManager: ViewersManagerService,
-                private scenarioService: ScenarioService) {
+                private scenarioService: ScenarioService,
+                private http: HttpClient) {
         viewerConf.viewerOptions = {
             animation: false,
             baseLayerPicker: false,
@@ -315,12 +317,16 @@ export class CesiumComponent implements OnInit, AfterViewInit {
     };
 
     ngOnInit(): void {
-        this.getScenarios();
-
-        this.scenarioService.getAllScenarios().then(function (data) {
-            console.log('Scenario Controller query', data);
-            this.scenario = data;
+        this.http.get('http://127.0.0.1:8072/metal/scenarios').subscribe(data => {
+            console.log(data);
         });
+
+        // this.getScenarios();
+
+        //  this.scenarioService.getAllScenarios().then(function (data) {
+        //      console.log('Scenario Controller query', data);
+        //      this.scenario = data;
+        //  });
     }
 
     ngAfterViewInit(): void {
