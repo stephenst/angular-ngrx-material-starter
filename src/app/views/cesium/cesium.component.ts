@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 export class CesiumComponent implements OnInit, AfterViewInit {
     @Input() allScenarios: any;
     @Input() mapData: object;
+    @Input() scenarios: object;
     @Input() scenario: any;
     @Input() perspective: any;
     @Input() modelsRun: any;
@@ -319,6 +320,8 @@ export class CesiumComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         this.http.get('http://127.0.0.1:8072/metal/scenarios').subscribe(data => {
             console.log(data);
+            this.scenarios = data;
+            // this.getScenario(data.name);
         });
 
         // this.getScenarios();
