@@ -11,10 +11,13 @@ import {ScenarioService} from '@app/components/scenario-service/scenario.service
 })
 export class CesiumComponent implements OnInit, AfterViewInit {
     @Input() allScenarios: any;
+    @Input() mapData: object;
     @Input() scenario: any;
     @Input() perspective: any;
     @Input() modelsRun: any;
     @Input() ares: any;
+    @Input() chartKey: any;
+    @Input() chartDataStr: any;
 
     arcGisMapServerProvider = MapLayerProviderOptions.ArcGisMapServer;
     flyToOptions = {
@@ -43,7 +46,7 @@ export class CesiumComponent implements OnInit, AfterViewInit {
             sceneModePicker: true,
             sceneMode: Cesium.SceneMode.SCENE2D,
             selectionIndicator: true,
-            timeline: false
+            timeline: true
         };
 
         viewerConf.viewerModifier = (viewer) => {
@@ -81,16 +84,16 @@ export class CesiumComponent implements OnInit, AfterViewInit {
 
     getScenarios(): void {
         this.scenarioService
-            .getAll('mapdata')
-            .then(allScenarios => this.allScenarios = allScenarios);
+            .getAllMaps('mapdata')
+            .then(mapData => this.mapData = mapData);
     };
 
     export(eventData: any): void {
         console.log('Export button clicked');
-        // let jsondatastr = $('#docking').jqxDocking('exportLayout');
+        // const jsondatastr = $('#docking').jqxDocking('exportLayout');
         // console.log(jsondatastr);
 
-        // $scope.perspective.jsondata = jsondatastr;
+        // this.perspective.jsondata = jsondatastr;
         // PerspectiveFactory.update( $scope.perspective, function() {
         //     console.log('saved');
         // });
@@ -102,12 +105,12 @@ export class CesiumComponent implements OnInit, AfterViewInit {
         //                  'width':'265','height':'571','collapsed':false},'window2':{'x':'330px','y':'347px',
         //                  'width':'870','height':'537','collapsed':false}},'orientation': 'horizontal'}';
 
-        this.scenarioService.getItem('perspectives', 1)
+        this.scenarioService.getPerspective(1)
             .then(perspectives => this.perspective = perspectives);
     };
 
-    run_model(scenarioName: any): void {
-        this.scenarioService.getItem('scenarios', scenarioName)
+    run_model(scenarioName: string|number): void {
+        this.scenarioService.getScenario(scenarioName)
             .then(modelsRun => this.modelsRun = modelsRun);
     };
 
@@ -116,10 +119,39 @@ export class CesiumComponent implements OnInit, AfterViewInit {
         // $scope.getRoutes(scenarioName);
         // $scope.data = [{ key: 'Some key', values:[{'label':'77', 'value':'22.0'}]}];
 
-        // this.scenarioService.getItem('scenarios', scenarioName);
-        this.scenarioService.getItem('scenarios', 1)
+        this.scenarioService.getScenario(1)
             .then(scenario => this.scenario = scenario);
 
+        this.scenarioService.getTimeToFailure(scenarioName)
+            .then(function (data) {
+                console.log('In Line Factory', data.key);
+                this.chartKey  = data.key;
+                this.chartDataStr = data.data;
+                // this.jsonChartData = angular.fromJson(chartDataStr);
+                this.data = [
+                    {
+                        key: this.chartKey,
+                        values : this.jsonChartData
+                    }
+                ];
+            }).then(function() {
+                this.scenarioService.getMapData(scenarioName)
+                    .then(function (data) {
+                        console.log('Cesium Factory');
+                        /**
+                        // clear the existing map
+                        $rootScope.viewer.entities.removeAll();
+                        // create entities from the map data
+                        $scope.selectedScenario = createCesiumMapEntities(data);
+                        // add entities to the map
+                        $scope.selectedScenario.forEach(function (e) {
+                            $rootScope.viewer.entities.add(e);
+                        });
+                        // zoom into entity location
+                        $rootScope.viewer.zoomTo($rootScope.viewer.entities);
+                         **/
+                    });
+            });
         /**
          LineFactory.get({id:scenarioName}).$promise.then( function(data){
             console.log('In Line Factory');
@@ -285,8 +317,8 @@ export class CesiumComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         this.getScenarios();
 
-        this.scenarioService.getAll('scenarios').then(function (data) {
-            console.log('Scenario Controller query');
+        this.scenarioService.getAllScenarios().then(function (data) {
+            console.log('Scenario Controller query', data);
             this.scenario = data;
         });
     }

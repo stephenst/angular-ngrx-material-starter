@@ -3,14 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {Http, Headers} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
-
-interface Scenario {
-    id: string;
-    name: string;
-    login: string;
-    bio: string;
-    company: string;
-}
+import { Scenario, TimeToFailure, MapData, Perspective } from './scenario';
 
 @Injectable()
 export class ScenarioService {
@@ -20,23 +13,55 @@ export class ScenarioService {
     private mapdataApi = 'http://127.0.0.1:8072/metal/mapdata';
     private stockApi = 'http://127.0.0.1:8072/metal/stock';
     private perspectivesApi = 'http://127.0.0.1:8072/metal/perspectives';
+    private timeToFailureApi = 'http://127.0.0.1:8072/metal/time_to_failure_distributions';
 
     constructor(private http: Http) {
     }
 
-    getAll(type: string): Promise<Scenario[]> {
-        const apiUrl = `${this.baseApi}/${type}`;
+    getAllScenarios(): Promise<Scenario> {
         return this.http.get(this.scenarioApi)
             .toPromise()
-            .then(response => response.json().data as Scenario[])
+            .then(response => response.json().data as Scenario)
             .catch(this.handleError);
     }
 
-    getItem(type: string, id: any): Promise<Scenario> {
-        const url = `${this.baseApi}/${type}/${id}`;
-        return this.http.get(url)
+    getAllMaps(type: string): Promise<Scenario> {
+        const apiUrl = `${this.baseApi}/${type}`;
+        return this.http.get(apiUrl)
             .toPromise()
             .then(response => response.json().data as Scenario)
+            .catch(this.handleError);
+    }
+
+    getScenario(id: string|number): Promise<Scenario> {
+        const apiUrl = `${this.scenarioApi}/${id}`;
+        return this.http.get(apiUrl)
+            .toPromise()
+            .then(response => response.json().data as Scenario)
+            .catch(this.handleError);
+    }
+
+    getPerspective(id: number): Promise<Perspective> {
+        const apiUrl = `${this.perspectivesApi}/${id}`;
+        return this.http.get(apiUrl)
+            .toPromise()
+            .then(response => response.json().data as Perspective)
+            .catch(this.handleError);
+    }
+
+    getTimeToFailure(id: string): Promise <TimeToFailure> {
+        const apiUrl = `${this.timeToFailureApi}/${id}`;
+        return this.http.get(apiUrl)
+            .toPromise()
+            .then(response => response.json().data as TimeToFailure)
+            .catch(this.handleError);
+    }
+
+    getMapData(id: string): Promise <MapData> {
+        const apiUrl = `${this.mapdataApi}/${id}`;
+        return this.http.get(apiUrl)
+            .toPromise()
+            .then(response => response.json().data as MapData)
             .catch(this.handleError);
     }
 
