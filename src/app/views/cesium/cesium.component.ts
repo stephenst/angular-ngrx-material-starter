@@ -9,17 +9,66 @@ interface Scenario {
     file_name: string;
     json_file: string;
     date_modified: number;
-    resources: object;
-    sites: object;
+    resources: object[];
+    sites: object[];
 }
 
 interface MapData {
     name: string;
-    resources: object;
-    assets: object;
-    sites: object;
-    risk_areas: object;
-    routes: object;
+    resources: Array<{
+        id: number,
+        name: string
+    }>;
+    assets: object[];
+    sites: Array<{
+        id: number,
+        name: string,
+        asset: Asset,
+        latitude: number,
+        longitude: number
+    }>;
+    risk_areas: Array<{
+        id: number,
+        name: string,
+        risktype: RiskType;
+        risk_area_verteces: Verteces[]
+    }>;
+    routes: Routes[];
+}
+
+interface Asset {
+    id: number;
+    name: string;
+    speed: string;
+    htmlcolor: string;
+    asset_resources: object[];
+}
+
+interface Verteces {
+    latitude: number;
+    longitude: number;
+}
+
+interface RiskType {
+    id: number;
+    name: string;
+    htmlcolor: string;
+}
+
+interface Routes {
+    id: number;
+    name: string;
+    distance: number;
+    asset_route_assignments: Array<{
+        asset: Asset;
+        count: string;
+    }>;
+    route_segments: Array<{
+        start_latitude: number,
+        start_longitude: number,
+        end_latitude: number,
+        end_longitude: number
+    }>;
 }
 
 @Component({
@@ -53,7 +102,7 @@ export class CesiumComponent implements OnInit, AfterViewInit {
     earthradius = 3440.2769;
     sqrt3 = Math.sqrt(3);
 
-    static radians(deg: number) {
+    radians(deg: number) {
         return (deg * (Math.PI / 180));
     };
 
@@ -107,7 +156,7 @@ export class CesiumComponent implements OnInit, AfterViewInit {
         return (nm / this.degLonToNm(1, lat));
     };
 
-    nmToLatLon(nmx: number, nmy: number) {
+    public nmToLatLon(nmx: number, nmy: number): object {
         const lat = this.nmToDegLat(nmy);
         const lon = this.nmToDegLon(nmx, lat);
         return [lat, lon];
@@ -169,21 +218,21 @@ export class CesiumComponent implements OnInit, AfterViewInit {
                  ];
                  **/
             });
-            this.scenarioService.getMapData(scenarioName)
-                .then(function (data) {
-                    console.log('getMapData', data);
-                    // clear the existing map
-                    this.viewerConf.entities.removeAll();
-                    // create entities from the map data
-                    this.selectedScenario = this.createCesiumMapEntities(data);
-                    console.log(this.selectedScenario);
-                    // add entities to the map
-                    // this.selectedScenario.forEach(function (e) {
-                    //    this.viewerConf.entities.add(e);
-                    // });
-                    // zoom into entity location
-                    this.viewerConf.zoomTo(this.viewerConf.entities);
-                });
+        this.scenarioService.getMapData(scenarioName)
+            .then(function (data) {
+                console.log('getMapData', data);
+                // clear the existing map
+                this.viewerConf.entities.removeAll();
+                // create entities from the map data
+                this.selectedScenario = this.createCesiumMapEntities(data);
+                console.log(this.selectedScenario);
+                // add entities to the map
+                // this.selectedScenario.forEach(function (e) {
+                //    this.viewerConf.entities.add(e);
+                // });
+                // zoom into entity location
+                this.viewerConf.zoomTo(this.viewerConf.entities);
+            });
         /**
          LineFactory.get({id:scenarioName}).$promise.then( function(data){
             console.log('In Line Factory');
@@ -220,11 +269,12 @@ export class CesiumComponent implements OnInit, AfterViewInit {
         const viewerData = [];
         console.log('createCesiumMapEntities', data);
         // add sites
-        data.sites.forEach(function (e) {
+
+        data.sites.forEach((e) => {
             const site = e;
             const ll = this.nmToLatLon(site.latitude, site.longitude);
             let assetresourcetable = 'none';
-            if (e.asset.asset_resources.length > 0) {
+            if (site.asset.asset_resources.length > 0) {
                 assetresourcetable = '<br><table><tr><td>Resource</td><td>Congested Consumption</td><td>Uncongested Consumption</td></tr>';
                 for (let ar = 0; ar < e.asset.asset_resources.length; ar++) {
                     this.ares = e.asset.asset_resources[ar];
