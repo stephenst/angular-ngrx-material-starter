@@ -10,7 +10,7 @@ export class ScenarioService {
     private headers = new Headers({'Content-Type': 'application/json'});
     private baseApi = 'http://127.0.0.1:8072/metal';
     private scenarioApi = 'http://127.0.0.1:8072/metal/scenarios';
-    private mapdataApi = 'http://127.0.0.1:8072/metal/mapdata';
+    private mapApi = 'http://127.0.0.1:8072/metal/mapdata';
     private stockApi = 'http://127.0.0.1:8072/metal/stock';
     private perspectivesApi = 'http://127.0.0.1:8072/metal/perspectives';
     private timeToFailureApi = 'http://127.0.0.1:8072/metal/time_to_failure_distributions';
@@ -53,15 +53,16 @@ export class ScenarioService {
         const apiUrl = `${this.timeToFailureApi}/${id}`;
         return this.http.get(apiUrl)
             .toPromise()
-            .then(response => response.json().data as TimeToFailure)
+            .then(response => response.json() as TimeToFailure)
             .catch(this.handleError);
     }
 
     getMapData(id: string): Promise <MapData> {
-        const apiUrl = `${this.mapdataApi}/${id}`;
+        const apiUrl = `${this.mapApi}/${id}`;
+        console.log('getMapData: ', apiUrl);
         return this.http.get(apiUrl)
             .toPromise()
-            .then(response => response.json().data as MapData)
+            .then(response => response.json() as MapData)
             .catch(this.handleError);
     }
 

@@ -1,8 +1,17 @@
-import { Component, Input, ViewChild, AfterViewInit, OnInit, ViewEncapsulation } from '@angular/core';
-import { ViewerConfiguration, MapLayerProviderOptions, ViewersManagerService } from 'angular-cesium';
-import { ScenarioService } from '@app/components/scenario-service/scenario.service';
-import { HttpClient } from '@angular/common/http';
+import {Component, Input, ViewChild, AfterViewInit, OnInit, ViewEncapsulation} from '@angular/core';
+import {ViewerConfiguration, MapLayerProviderOptions, ViewersManagerService} from 'angular-cesium';
+import {ScenarioService} from '@app/components/scenario-service/scenario.service';
+import {HttpClient} from '@angular/common/http';
 
+interface Scenario {
+    id: string;
+    name: string;
+    file_name: string;
+    json_file: string;
+    date_modified: number;
+    resources: object;
+    sites: object;
+}
 @Component({
     selector: 'anms-cesium',
     templateUrl: './cesium.component.html',
@@ -13,7 +22,8 @@ import { HttpClient } from '@angular/common/http';
 export class CesiumComponent implements OnInit, AfterViewInit {
     @Input() allScenarios: any;
     @Input() mapData: object;
-    @Input() scenario: any;
+    @Input() scenarios: object;
+    @Input() scenario: object;
     @Input() perspective: any;
     @Input() modelsRun: any;
     @Input() ares: any;
@@ -27,6 +37,7 @@ export class CesiumComponent implements OnInit, AfterViewInit {
     };
     earthradius = 3440.2769;
     sqrt3 = Math.sqrt(3);
+
     radians(deg: number) {
         return (deg * (Math.PI / 180));
     };
@@ -81,7 +92,7 @@ export class CesiumComponent implements OnInit, AfterViewInit {
     nmToLatLon(nmx: number, nmy: number) {
         const lat = this.nmToDegLat(nmy);
         const lon = this.nmToDegLon(nmx, lat);
-        return [ lat, lon ];
+        return [lat, lon];
     };
 
     getScenarios(): void {
@@ -111,7 +122,7 @@ export class CesiumComponent implements OnInit, AfterViewInit {
             .then(perspectives => this.perspective = perspectives);
     };
 
-    run_model(scenarioName: string|number): void {
+    run_model(scenarioName: string | number): void {
         this.scenarioService.getScenario(scenarioName)
             .then(modelsRun => this.modelsRun = modelsRun);
     };
@@ -121,39 +132,38 @@ export class CesiumComponent implements OnInit, AfterViewInit {
         // $scope.getRoutes(scenarioName);
         // $scope.data = [{ key: 'Some key', values:[{'label':'77', 'value':'22.0'}]}];
 
-        this.scenarioService.getScenario(1)
-            .then(scenario => this.scenario = scenario);
+        // this.scenarioService.getScenario(1)
+        //    .then(scenario => this.scenario = scenario);
 
         this.scenarioService.getTimeToFailure(scenarioName)
             .then(function (data) {
-                console.log('In Line Factory', data.key);
-                this.chartKey  = data.key;
-                this.chartDataStr = data.data;
-                // this.jsonChartData = angular.fromJson(chartDataStr);
-                this.data = [
-                    {
-                        key: this.chartKey,
-                        values : this.jsonChartData
-                    }
-                ];
-            }).then(function() {
-                this.scenarioService.getMapData(scenarioName)
-                    .then(function (data) {
-                        console.log('Cesium Factory');
-                        /**
-                        // clear the existing map
-                        $rootScope.viewer.entities.removeAll();
-                        // create entities from the map data
-                        $scope.selectedScenario = createCesiumMapEntities(data);
-                        // add entities to the map
-                        $scope.selectedScenario.forEach(function (e) {
-                            $rootScope.viewer.entities.add(e);
-                        });
-                        // zoom into entity location
-                        $rootScope.viewer.zoomTo($rootScope.viewer.entities);
-                         **/
-                    });
+                console.log('Chart Stuff.', data);
+                /**
+                 this.chartKey  = data.key;
+                 this.chartDataStr = data.data;
+                 this.jsonChartData = JSON.parse(this.chartDataStr);
+                 this.data = [
+                 {
+                     key: this.chartKey,
+                     values : this.jsonChartData
+                 }
+                 ];
+                 **/
             });
+            this.scenarioService.getMapData(scenarioName)
+                .then(function (data) {
+                    console.log('Cesium Factory');
+                    // clear the existing map
+                    this.viewer.entities.removeAll();
+                    // create entities from the map data
+                    this.selectedScenario = this.createCesiumMapEntities(data);
+                    // add entities to the map
+                    this.selectedScenario.forEach(function (e) {
+                        this.viewer.entities.add(e);
+                    });
+                    // zoom into entity location
+                    this.viewer.zoomTo(this.viewer.entities);
+                });
         /**
          LineFactory.get({id:scenarioName}).$promise.then( function(data){
             console.log('In Line Factory');
@@ -317,8 +327,11 @@ export class CesiumComponent implements OnInit, AfterViewInit {
     };
 
     ngOnInit(): void {
-        this.http.get('http://127.0.0.1:8072/metal/scenarios').subscribe(data => {
-            console.log(data);
+        this.http.get<Scenario>('http://127.0.0.1:8072/metal/scenarios').subscribe(Scenario => {
+            console.log(Scenario);
+            this.scenarios = Scenario;
+            console.log('Scenario name: ', Scenario[0].name);
+            this.getScenario(Scenario[0].name);
         });
 
         // this.getScenarios();
