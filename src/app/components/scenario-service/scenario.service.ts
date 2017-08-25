@@ -3,7 +3,38 @@ import {Observable} from 'rxjs/Observable';
 import {Http, Headers} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
-import { Scenario, TimeToFailure, MapData, Perspective } from './scenario';
+
+interface Scenario {
+    id: string;
+    name: string;
+    file_name: string;
+    json_file: string;
+    date_modified: number;
+    resources: object;
+    sites: object;
+}
+
+interface TimeToFailure {
+    scenario: string;
+    key: string;
+    data: string;
+    x_axis_label: string;
+    y_axis_label: string;
+}
+
+interface MapData {
+    name: string;
+    resources: object;
+    assets: object;
+    sites: object;
+    risk_areas: object;
+    routes: object;
+}
+
+interface Perspective {
+    name: string;
+    id: number;
+}
 
 @Injectable()
 export class ScenarioService {
@@ -18,10 +49,10 @@ export class ScenarioService {
     constructor(private http: Http) {
     }
 
-    getAllScenarios(): Promise<Scenario[]> {
+    getAllScenarios(): Promise<Scenario> {
         return this.http.get(this.scenarioApi)
             .toPromise()
-            .then(response => response.json().data as Scenario[])
+            .then(response => response.json().data as Scenario)
             .catch(this.handleError);
     }
 
