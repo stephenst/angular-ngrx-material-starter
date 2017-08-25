@@ -20,6 +20,11 @@ interface Scenario {
     encapsulation: ViewEncapsulation.None
 })
 export class CesiumComponent implements OnInit, AfterViewInit {
+    private viewerConf: ViewerConfiguration;
+    private viewersManager: ViewersManagerService;
+    private scenarioService: ScenarioService;
+    private http: HttpClient;
+
     @Input() allScenarios: any;
     @Input() mapData: object;
     @Input() scenarios: object;
@@ -42,10 +47,14 @@ export class CesiumComponent implements OnInit, AfterViewInit {
         return (deg * (Math.PI / 180));
     };
 
-    constructor(private viewerConf: ViewerConfiguration,
-                private viewersManager: ViewersManagerService,
-                private scenarioService: ScenarioService,
-                private http: HttpClient) {
+    constructor(viewerConf: ViewerConfiguration,
+                viewersManager: ViewersManagerService,
+                scenarioService: ScenarioService,
+                http: HttpClient) {
+        this.viewerConf = viewerConf;
+        this.viewersManager = viewersManager;
+        this.scenarioService = scenarioService;
+        this.http = http;
         viewerConf.viewerOptions = {
             animation: false,
             baseLayerPicker: false,
@@ -69,7 +78,6 @@ export class CesiumComponent implements OnInit, AfterViewInit {
             // screenSpaceCameraController.enableTilt = false;
             // screenSpaceCameraController.enableRotate = false;
         };
-
     }
 
     degLatToNm(degLat: number) {
@@ -128,6 +136,7 @@ export class CesiumComponent implements OnInit, AfterViewInit {
     };
 
     getScenario(scenarioName: string): void {
+        console.log('getScenario started: ', scenarioName);
         // $scope.run_model(scenarioName);
         // $scope.getRoutes(scenarioName);
         // $scope.data = [{ key: 'Some key', values:[{'label':'77', 'value':'22.0'}]}];
@@ -137,7 +146,7 @@ export class CesiumComponent implements OnInit, AfterViewInit {
 
         this.scenarioService.getTimeToFailure(scenarioName)
             .then(function (data) {
-                console.log('Chart Stuff.', data);
+                console.log('getTimeToFailure.', data);
                 /**
                  this.chartKey  = data.key;
                  this.chartDataStr = data.data;
@@ -152,15 +161,16 @@ export class CesiumComponent implements OnInit, AfterViewInit {
             });
             this.scenarioService.getMapData(scenarioName)
                 .then(function (data) {
-                    console.log('Cesium Factory');
+                    console.log('getMapData', data);
                     // clear the existing map
-                    this.viewerConf.entities.removeAll();
+                    // this.viewerConf.entities.removeAll();
                     // create entities from the map data
                     this.selectedScenario = this.createCesiumMapEntities(data);
+                    console.log(this.selectedScenario);
                     // add entities to the map
-                    this.selectedScenario.forEach(function (e) {
-                        this.viewerConf.entities.add(e);
-                    });
+                    // this.selectedScenario.forEach(function (e) {
+                    //    this.viewerConf.entities.add(e);
+                    // });
                     // zoom into entity location
                     this.viewerConf.zoomTo(this.viewerConf.entities);
                 });
@@ -198,6 +208,7 @@ export class CesiumComponent implements OnInit, AfterViewInit {
 
     createCesiumMapEntities(data: any): any {
         const viewerData = [];
+        console.log('createCesiumMapEntities', data);
         // add sites
         data.sites.forEach(function (e) {
             const site = e;
