@@ -1,5 +1,16 @@
-import {Component, Input, ViewChild, AfterViewInit, OnInit, ViewEncapsulation} from '@angular/core';
-import {ViewerConfiguration, MapLayerProviderOptions, ViewersManagerService} from 'angular-cesium';
+
+import {
+    Component,
+    Input,
+    ViewChild,
+    AfterViewInit,
+    OnInit,
+    ViewEncapsulation } from '@angular/core';
+import {
+    CesiumService,
+    ViewerConfiguration,
+    MapLayerProviderOptions,
+    ViewersManagerService } from 'angular-cesium';
 import {ScenarioService} from '@app/components/scenario-service/scenario.service';
 import {HttpClient} from '@angular/common/http';
 
@@ -75,7 +86,7 @@ interface Routes {
     selector: 'anms-cesium',
     templateUrl: './cesium.component.html',
     styleUrls: ['./cesium.component.scss'],
-    providers: [ViewerConfiguration],
+    providers: [ViewerConfiguration, CesiumService],
     encapsulation: ViewEncapsulation.None
 })
 export class CesiumComponent implements OnInit, AfterViewInit {
@@ -83,8 +94,10 @@ export class CesiumComponent implements OnInit, AfterViewInit {
     private viewersManager: ViewersManagerService;
     private scenarioService: ScenarioService;
     private http: HttpClient;
+    private cesium: CesiumService;
 
     @Input() allScenarios: any;
+    @Input() selectedScenario: object;
     @Input() mapData: object;
     @Input() scenarios: object;
     @Input() scenario: object;
@@ -109,11 +122,13 @@ export class CesiumComponent implements OnInit, AfterViewInit {
     constructor(viewerConf: ViewerConfiguration,
                 viewersManager: ViewersManagerService,
                 scenarioService: ScenarioService,
+                cesium: CesiumService,
                 http: HttpClient) {
         this.viewerConf = viewerConf;
         this.viewersManager = viewersManager;
         this.scenarioService = scenarioService;
         this.http = http;
+        this.cesium = cesium;
         viewerConf.viewerOptions = {
             animation: false,
             baseLayerPicker: false,
@@ -134,8 +149,8 @@ export class CesiumComponent implements OnInit, AfterViewInit {
             viewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
             viewer.bottomContainer.remove();
             const screenSpaceCameraController = viewer.scene.screenSpaceCameraController;
-            // screenSpaceCameraController.enableTilt = false;
-            // screenSpaceCameraController.enableRotate = false;
+            screenSpaceCameraController.enableTilt = false;
+            screenSpaceCameraController.enableRotate = false;
         };
     }
 
@@ -204,7 +219,7 @@ export class CesiumComponent implements OnInit, AfterViewInit {
         //    .then(scenario => this.scenario = scenario);
 
         this.scenarioService.getTimeToFailure(scenarioName)
-            .then(function (data) {
+            .then((data) => {
                 console.log('getTimeToFailure.', data);
                 /**
                  this.chartKey  = data.key;
@@ -219,10 +234,10 @@ export class CesiumComponent implements OnInit, AfterViewInit {
                  **/
             });
         this.scenarioService.getMapData(scenarioName)
-            .then(function (data) {
+            .then((data) => {
                 console.log('getMapData', data);
                 // clear the existing map
-                this.viewerConf.entities.removeAll();
+                // this.viewerConf.entities.removeAll();
                 // create entities from the map data
                 this.selectedScenario = this.createCesiumMapEntities(data);
                 console.log(this.selectedScenario);
@@ -231,41 +246,11 @@ export class CesiumComponent implements OnInit, AfterViewInit {
                 //    this.viewerConf.entities.add(e);
                 // });
                 // zoom into entity location
-                this.viewerConf.zoomTo(this.viewerConf.entities);
+                // this.cesium.flyTo(this.viewerConf.entities);
             });
-        /**
-         LineFactory.get({id:scenarioName}).$promise.then( function(data){
-            console.log('In Line Factory');
-            let chartKey  = data.key;
-            //console.log(chartKey);
-            let chartDataStr = data.data;
-            let jsonChartData = angular.fromJson(chartDataStr);
-            $scope.data = [
-                {
-                    key: chartKey,
-                    values : jsonChartData
-                }
-            ];
-        }).then(function(){
-            CesiumFactory.get({id:scenarioName}).$promise.then( function(data){
-                console.log('Cesium Factory');
-                // clear the existing map
-                $rootScope.viewer.entities.removeAll();
-                // create entities from the map data
-                $scope.selectedScenario = createCesiumMapEntities(data);
-                // add entities to the map
-                $scope.selectedScenario.forEach(function(e){
-                    $rootScope.viewer.entities.add(e);
-                });
-                // zoom into entity location
-                $rootScope.viewer.zoomTo($rootScope.viewer.entities);
-            });
-        });
-         **/
-
     };
 
-    createCesiumMapEntities(data: MapData): object {
+    createCesiumMapEntities(data: any): object {
         const viewerData = [];
         console.log('createCesiumMapEntities', data);
         // add sites
