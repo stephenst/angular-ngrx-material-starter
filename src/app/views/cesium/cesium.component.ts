@@ -12,6 +12,16 @@ interface Scenario {
     resources: object;
     sites: object;
 }
+
+interface MapData {
+    name: string;
+    resources: object;
+    assets: object;
+    sites: object;
+    risk_areas: object;
+    routes: object;
+}
+
 @Component({
     selector: 'anms-cesium',
     templateUrl: './cesium.component.html',
@@ -43,7 +53,7 @@ export class CesiumComponent implements OnInit, AfterViewInit {
     earthradius = 3440.2769;
     sqrt3 = Math.sqrt(3);
 
-    radians(deg: number) {
+    static radians(deg: number) {
         return (deg * (Math.PI / 180));
     };
 
@@ -163,7 +173,7 @@ export class CesiumComponent implements OnInit, AfterViewInit {
                 .then(function (data) {
                     console.log('getMapData', data);
                     // clear the existing map
-                    // this.viewerConf.entities.removeAll();
+                    this.viewerConf.entities.removeAll();
                     // create entities from the map data
                     this.selectedScenario = this.createCesiumMapEntities(data);
                     console.log(this.selectedScenario);
@@ -206,7 +216,7 @@ export class CesiumComponent implements OnInit, AfterViewInit {
 
     };
 
-    createCesiumMapEntities(data: any): any {
+    createCesiumMapEntities(data: MapData): object {
         const viewerData = [];
         console.log('createCesiumMapEntities', data);
         // add sites
@@ -334,6 +344,7 @@ export class CesiumComponent implements OnInit, AfterViewInit {
                 }
             });
         }
+        console.log('returning viewer data', viewerData);
         return viewerData;
     };
 
