@@ -154,15 +154,15 @@ export class CesiumComponent implements OnInit, AfterViewInit {
                 .then(function (data) {
                     console.log('Cesium Factory');
                     // clear the existing map
-                    this.viewer.entities.removeAll();
+                    this.viewerConf.entities.removeAll();
                     // create entities from the map data
                     this.selectedScenario = this.createCesiumMapEntities(data);
                     // add entities to the map
                     this.selectedScenario.forEach(function (e) {
-                        this.viewer.entities.add(e);
+                        this.viewerConf.entities.add(e);
                     });
                     // zoom into entity location
-                    this.viewer.zoomTo(this.viewer.entities);
+                    this.viewerConf.zoomTo(this.viewerConf.entities);
                 });
         /**
          LineFactory.get({id:scenarioName}).$promise.then( function(data){
