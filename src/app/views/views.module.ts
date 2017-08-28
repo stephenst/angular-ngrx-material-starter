@@ -16,12 +16,14 @@ import {StockMarketEffects} from './stock-market/stock-market.effects';
 import {StockMarketService} from './stock-market/stock-market.service';
 import {ParentComponent} from './theming/parent/parent.component';
 import {ChildComponent} from './theming/child/child.component';
+import {CesiumOrigModule} from './cesiumOrig/cesium.module';
 import {CesiumModule} from './cesium/cesium.module';
 
 @NgModule({
     imports: [
         CoreModule,
         SharedModule,
+        CesiumOrigModule,
         CesiumModule,
         ExamplesRoutingModule,
         StoreModule.forFeature('examples', {
