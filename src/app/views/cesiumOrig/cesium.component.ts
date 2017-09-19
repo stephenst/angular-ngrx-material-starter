@@ -5,7 +5,8 @@ import {
     ViewChild,
     AfterViewInit,
     OnInit,
-    ViewEncapsulation } from '@angular/core';
+    ViewEncapsulation,
+    HostListener } from '@angular/core';
 import {
     CesiumService,
     ViewerConfiguration,
@@ -13,6 +14,7 @@ import {
     ViewersManagerService } from 'angular-cesium';
 import {ScenarioService} from '@app/components/scenario-service/scenario.service';
 import {HttpClient} from '@angular/common/http';
+import { Subscription } from 'rxjs/Subscription';
 
 interface Scenario {
     id: string;
@@ -114,6 +116,8 @@ export class CesiumOrigComponent implements OnInit, AfterViewInit {
     };
     earthradius = 3440.2769;
     sqrt3 = Math.sqrt(3);
+    subscription: Subscription;
+    scenarioName: any;
 
     radians(deg: number) {
         return (deg * (Math.PI / 180));
@@ -144,6 +148,10 @@ export class CesiumOrigComponent implements OnInit, AfterViewInit {
             selectionIndicator: true,
             timeline: true
         };
+        this.subscription = this.scenarioService.currentScenario().subscribe(scenarioName => {
+            console.log('subscription: ', scenarioName);
+            this.scenarioName = scenarioName;
+        });
 
         viewerConf.viewerModifier = (viewer) => {
             viewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
@@ -211,26 +219,28 @@ export class CesiumOrigComponent implements OnInit, AfterViewInit {
 
     getScenario(scenarioName: string): void {
         console.log('getScenario started: ', scenarioName);
-        this.scenarioService.getTimeToFailure(scenarioName)
-            .then((data) => {
-                console.log('getTimeToFailure.', data);
-            });
-        this.scenarioService.getMapData(scenarioName)
-            .then((data) => {
-                console.log('getMapData', data);
-                // clear the existing map
-                // this.viewerConf.entities.removeAll();
-                // create entities from the map data
-                this.selectedScenario = this.createCesiumMapEntities(data);
-                console.log(this.selectedScenario);
-                // this.viewerConf.
-                // add entities to the map
-                // this.selectedScenario.forEach(function (e) {
-                //    this.viewerConf.entities.add(e);
-                // });
-                // zoom into entity location
-                // this.cesiumOrig.flyTo(this.viewerConf.entities);
-            });
+        if (this.scenarioName) {
+            this.scenarioService.getTimeToFailure(scenarioName)
+                .then((data) => {
+                    console.log('getTimeToFailure.', data);
+                });
+            this.scenarioService.getMapData(scenarioName)
+                .then((data) => {
+                    console.log('getMapData', data);
+                    // clear the existing map
+                    // this.viewerConf.entities.removeAll();
+                    // create entities from the map data
+                    this.selectedScenario = this.createCesiumMapEntities(data);
+                    console.log(this.selectedScenario);
+                    // this.viewerConf.
+                    // add entities to the map
+                    // this.selectedScenario.forEach(function (e) {
+                    //    this.viewerConf.entities.add(e);
+                    // });
+                    // zoom into entity location
+                    // this.cesiumOrig.flyTo(this.viewerConf.entities);
+                });
+        }
     };
 
     createCesiumMapEntities(data: any): object {
@@ -366,10 +376,15 @@ export class CesiumOrigComponent implements OnInit, AfterViewInit {
     };
 
     ngOnInit(): void {
-        this.http.get<Scenario>('http://127.0.0.1:8072/metal/scenarios').subscribe(Scenario => {
-            console.log('just got Scenario: ', Scenario);
-            this.scenarios = Scenario;
-            this.getScenario(Scenario[0].name);
+        this.scenarioName = this.scenarioService.currentScenario().subscribe(value => {
+            console.log('Received new subject value: ', value);
+            console.log('on init; scenario name: ', this.scenarioName);
+
+            this.http.get<Scenario>('http://127.0.0.1:8072/metal/scenarios').subscribe(Scenario => {
+                console.log('just got Scenario from Init of Cesium Component: ', Scenario);
+                this.scenarios = Scenario;
+                this.getScenario(Scenario[0].name);
+            });
         });
     }
 

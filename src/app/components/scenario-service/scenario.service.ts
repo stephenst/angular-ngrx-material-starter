@@ -1,18 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Http, Headers} from '@angular/http';
+import { Subject } from 'rxjs/Subject';
+import { Scenario } from './scenario';
 
 import 'rxjs/add/operator/toPromise';
-
-interface Scenario {
-    id: string;
-    name: string;
-    file_name: string;
-    json_file: string;
-    date_modified: number;
-    resources: object;
-    sites: object;
-}
 
 interface TimeToFailure {
     scenario: string;
@@ -36,6 +28,10 @@ interface Perspective {
     id: number;
 }
 
+interface ScenarioName {
+    name: string;
+}
+
 @Injectable()
 export class ScenarioService {
     private headers = new Headers({'Content-Type': 'application/json'});
@@ -45,8 +41,25 @@ export class ScenarioService {
     private stockApi = 'http://127.0.0.1:8072/metal/stock';
     private perspectivesApi = 'http://127.0.0.1:8072/metal/perspectives';
     private timeToFailureApi = 'http://127.0.0.1:8072/metal/time_to_failure_distributions';
+    private scenarioName;
 
     constructor(private http: Http) {
+    }
+
+    currentScenario(): Observable<any> {
+        console.log('current scenario: ', this.scenarioName);
+        return Observable.create(scenarioName => {
+            scenarioName.next(this.scenarioName);
+            scenarioName.complete();
+        });
+    }
+
+    setScenario(name: string) {
+        // this.scenarioName.next({ text: name });
+        // this._scenario.name = name; // save your data
+
+        this.scenarioName.next(name);
+        console.log('set scenario: ', name);
     }
 
     getAllScenarios(): Promise<Scenario> {

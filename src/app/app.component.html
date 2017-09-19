@@ -20,12 +20,12 @@
 
             <!-- Logo and Text; center aligned; shown at small size. -->
             <span routerLink="" class="branding spacer hidden-md-up text-center"><img
-                [src]="logo"/> Angular ngRx Material Starter
+                [src]="logo"/> MET_AL
             </span>
 
             <!-- Logo and Text; left aligned; hidden at small size. -->
             <span routerLink="" class="branding spacer hidden-sm-down"><img
-                [src]="logo"/> Angular ngRx Material Starter
+                [src]="logo"/> MET_AL
             </span>
 
             <!-- Nav buttons, hidden at small size. -->
@@ -36,41 +36,22 @@
                 </button>
             </span>
 
-            <!-- Auth Button if not logged in -->
-            <button md-button class="sign-in-button"
-                    *ngIf="!isAuthenticated"
-                    (click)="onLoginClick()">
-                Sign in
-            </button>
-            <!-- Person if logged in -->
-            <button *ngIf="isAuthenticated"
-                    md-icon-button
-                    [mdMenuTriggerFor]="toolbarUserMenu">
-                <md-icon>person</md-icon>
-            </button>
-
-            <!-- Person Dropdown Menu. -->
-            <md-menu #toolbarUserMenu="mdMenu">
-                <button md-menu-item (click)="onLogoutClick()">
-                    <md-icon>power_settings_new</md-icon>
-                    <span>Logout</span>
+            <!-- Loading Scenarios -->
+            <md-menu #scenarioMenu="mdMenu">
+                <button md-menu-item  *ngFor="let scenario of scenarios" (click)="getScenario(scenario.name)">
+                    {{ scenario.name }}
                 </button>
             </md-menu>
+            <button md-button [mdMenuTriggerFor]="scenarioMenu">
+                Load Scenarios
+            </button>
+
 
             <!-- Settings; hidden at small size. -->
             <button md-icon-button routerLink="settings" class="hidden-sm-down">
                 <md-icon>settings</md-icon>
             </button>
 
-            <!-- Github Link/Icon; hidden at small size. -->
-            <a mdTooltip="Project Github Repository"
-               mdTooltipPosition="before"
-               md-icon-button
-               class="hidden-sm-down link"
-               href="https://github.com/stephenst/angular-ngrx-material-starter"
-               target="_blank">
-                <i class="fa fa-github fa-2x"></i>
-            </a>
         </md-toolbar>
 
         <!-- The main router outlet view -->
@@ -82,7 +63,7 @@
         <div class="footer">
             <div class="row">
                 <div class="col-12 signature">
-                    &#169; {{ year }} - Group W / METAL
+                    &#169; {{ year }} - Group W / MET_AL
                     <a mdTooltip="Show changelog"
                        mdTooltipPosition="before"
                        href="https://github.com/stephenst/angular-ngrx-material-starter/blob/master/CHANGELOG.md">

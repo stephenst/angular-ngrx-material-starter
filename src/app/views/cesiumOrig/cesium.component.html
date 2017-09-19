@@ -1,4 +1,4 @@
-<ac-map [enableTilt]="false" id="main-map">
+<ac-map [enableTilt]="false" id="main-map" *ngIf="scenarioName">
     <ac-map-layer-provider [provider]="arcGisMapServerProvider"
                            [options]="{
                                 url : 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer'
